@@ -1,0 +1,282 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Secure Password Generator – Free & Customizable</title>
+    
+    <!-- Favicon and PWA icons -->
+    <link rel="icon" type="image/svg+xml" href="favicon.svg">
+    <link rel="icon" type="image/x-icon" href="favicon.ico">
+    <link rel="apple-touch-icon" sizes="180x180" href="favicon-192.png">
+    
+    <!-- PWA Manifest -->
+    <link rel="manifest" href="manifest.json">
+    
+    <!-- Theme colors for mobile browsers -->
+    <meta name="theme-color" content="#667eea">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="default">
+    <meta name="apple-mobile-web-app-title" content="PassGenius">
+    <meta name="description" content="Generate secure, customizable passwords instantly. Features bulk generation, pronounceable passwords, leak checking, and password history. Free online tool with no registration required.">
+    <meta name="robots" content="index, follow">
+    <link rel="icon" href="favicon.ico">
+    
+    <!-- Structured Data for SEO -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "WebApplication",
+      "name": "PassGenius - Secure Password Generator",
+      "alternateName": "PassGenius",
+      "url": "https://password-generator.replit.app/",
+      "description": "Generate secure, customizable passwords instantly with advanced features including bulk generation, pronounceable passwords, leak checking, and password history.",
+      "applicationCategory": "UtilitiesApplication",
+      "operatingSystem": "All",
+      "browserRequirements": "Requires JavaScript. Modern browsers supporting ES6+",
+      "softwareVersion": "1.0.0",
+      "offers": {
+        "@type": "Offer",
+        "price": "0",
+        "priceCurrency": "USD"
+      },
+      "featureList": [
+        "Secure password generation",
+        "Customizable length and character types",
+        "Bulk password generation",
+        "Pronounceable passwords",
+        "Password leak checking",
+        "Password history management",
+        "Dark mode support",
+        "PWA installation",
+        "Offline functionality"
+      ],
+      "screenshot": "https://password-generator.replit.app/screenshot.png",
+      "author": {
+        "@type": "Organization",
+        "name": "PassGenius Team"
+      }
+    }
+    </script>
+    
+    <!-- Open Graph / Facebook -->
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://password-generator.replit.app/">
+    <meta property="og:title" content="Secure Password Generator – Free & Customizable">
+    <meta property="og:description" content="Generate secure, customizable passwords instantly. Features bulk generation, pronounceable passwords, leak checking, and password history.">
+    <meta property="og:image" content="https://password-generator.replit.app/og-image.png">
+
+    <!-- Twitter -->
+    <meta property="twitter:card" content="summary_large_image">
+    <meta property="twitter:url" content="https://password-generator.replit.app/">
+    <meta property="twitter:title" content="Secure Password Generator – Free & Customizable">
+    <meta property="twitter:description" content="Generate secure, customizable passwords instantly. Features bulk generation, pronounceable passwords, leak checking, and password history.">
+    <meta property="twitter:image" content="https://password-generator.replit.app/og-image.png">
+    
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>Secure Password Generator<br>Strong, Free, Instant</h1>
+            <button id="dark-mode-toggle" class="dark-mode-toggle" title="Toggle dark mode">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
+                </svg>
+            </button>
+        </header>
+
+        <main class="generator-card" role="main" aria-label="Password generator controls">
+            <div class="length-section">
+                <label for="length-slider" class="section-title">Password Length</label>
+                <div class="length-control">
+                    <input type="range" id="length-slider" min="4" max="32" value="12" class="slider">
+                    <span id="length-display" class="length-value">12</span>
+                </div>
+            </div>
+
+            <div class="options-section">
+                <h3 class="section-title">Character Options</h3>
+                <div class="options-grid">
+                    <div class="option-item">
+                        <label class="toggle-switch">
+                            <input type="checkbox" id="uppercase" checked>
+                            <span class="slider-toggle"></span>
+                        </label>
+                        <label for="uppercase" class="option-label">Uppercase (A-Z)</label>
+                    </div>
+                    
+                    <div class="option-item">
+                        <label class="toggle-switch">
+                            <input type="checkbox" id="lowercase" checked>
+                            <span class="slider-toggle"></span>
+                        </label>
+                        <label for="lowercase" class="option-label">Lowercase (a-z)</label>
+                    </div>
+                    
+                    <div class="option-item">
+                        <label class="toggle-switch">
+                            <input type="checkbox" id="numbers" checked>
+                            <span class="slider-toggle"></span>
+                        </label>
+                        <label for="numbers" class="option-label">Numbers (0-9)</label>
+                    </div>
+                    
+                    <div class="option-item">
+                        <label class="toggle-switch">
+                            <input type="checkbox" id="symbols">
+                            <span class="slider-toggle"></span>
+                        </label>
+                        <label for="symbols" class="option-label">Symbols (!@#$%^&*)</label>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Advanced Options -->
+            <div class="advanced-options">
+                <h3 class="section-title">Advanced Options</h3>
+                <div class="advanced-grid">
+                    <div class="option-item">
+                        <label class="toggle-switch">
+                            <input type="checkbox" id="pronounceable">
+                            <span class="slider-toggle"></span>
+                        </label>
+                        <label for="pronounceable" class="option-label">Pronounceable (Easy to remember)</label>
+                    </div>
+                    
+                    <div class="option-item">
+                        <label class="toggle-switch">
+                            <input type="checkbox" id="check-leaked">
+                            <span class="slider-toggle"></span>
+                        </label>
+                        <label for="check-leaked" class="option-label">Check for leaked passwords</label>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Bulk Generation -->
+            <div class="bulk-section">
+                <label for="bulk-count" class="section-title">Bulk Generation</label>
+                <div class="bulk-control">
+                    <select id="bulk-count" class="bulk-select">
+                        <option value="1">Generate 1 password</option>
+                        <option value="10">Generate 10 passwords</option>
+                        <option value="25">Generate 25 passwords</option>
+                        <option value="50">Generate 50 passwords</option>
+                    </select>
+                </div>
+            </div>
+
+            <div class="error-message" id="error-message">
+                Please select at least one character type.
+            </div>
+
+            <button id="generate-btn" class="generate-btn" aria-describedby="password-output">Generate Password</button>
+
+            <div class="result-section">
+                <label for="password-output" class="section-title">Generated Password(s)</label>
+                
+                <!-- Single password output (shown when bulk count is 1) -->
+                <div id="single-password-container" class="password-container">
+                    <input type="text" id="password-output" class="password-output" readonly placeholder="Click 'Generate Password' to create a password" aria-label="Generated password" aria-live="polite">
+                    <button id="copy-btn" class="copy-btn" title="Copy to clipboard" disabled>
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect>
+                            <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path>
+                        </svg>
+                    </button>
+                </div>
+                
+                <!-- Bulk password output (shown when bulk count > 1) -->
+                <div id="bulk-password-container" class="bulk-password-container" style="display: none;">
+                    <div class="bulk-actions">
+                        <button id="copy-all-btn" class="control-btn">Copy All</button>
+                        <button id="download-bulk-btn" class="control-btn">Download as Text</button>
+                    </div>
+                    <div id="bulk-password-list" class="bulk-password-list"></div>
+                </div>
+                
+                <div id="copy-feedback" class="copy-feedback" aria-live="polite">Password copied to clipboard!</div>
+                
+                <!-- Leak Check Results -->
+                <div id="leak-check-result" class="leak-check-result" style="display: none;">
+                    <div id="leak-status" class="leak-status" aria-live="polite"></div>
+                </div>
+                
+
+            </div>
+            
+            <!-- Password History Section -->
+            <div class="history-section" role="region" aria-label="Password history">
+                <div class="history-header">
+                    <h3 class="section-title">Password History</h3>
+                    <div class="history-controls">
+                        <button id="clear-history-btn" class="control-btn" title="Clear all history">
+                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                <path d="M3 6h18"></path>
+                                <path d="M19 6v14c0 1-1 2-2 2H7c-1 0-2-1-2-2V6"></path>
+                                <path d="M8 6V4c0-1 1-2 2-2h4c1 0 2 1 2 2v2"></path>
+                            </svg>
+                        </button>
+                        <button id="export-csv-btn" class="control-btn" title="Export as CSV">
+                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path>
+                                <polyline points="14,2 14,8 20,8"></polyline>
+                                <line x1="16" y1="13" x2="8" y2="13"></line>
+                                <line x1="16" y1="17" x2="8" y2="17"></line>
+                                <polyline points="10,9 9,9 8,9"></polyline>
+                            </svg>
+                        </button>
+                    </div>
+                </div>
+                <div id="history-list" class="history-list">
+                    <div class="history-empty">No passwords generated yet</div>
+                </div>
+            </div>
+        </main>
+
+        <footer>
+            <p>Generated passwords are created locally and never sent to any server.</p>
+            <p><a href="#privacy" onclick="alert('PassGenius does not collect or store any personal data.\nAll password generation runs entirely in your browser.\nWe do not use cookies or tracking tools.\nThe breach check uses anonymized hash prefixes via HaveIBeenPwned — your password is never shared.')">Privacy</a> · <a href="#contact" onclick="showContactModal()">Contact</a></p>
+        </footer>
+    </div>
+
+    <script>
+        // Completely disable service worker to prevent caching issues
+        if ('serviceWorker' in navigator) {
+            navigator.serviceWorker.getRegistrations().then(function(registrations) {
+                for(let registration of registrations) {
+                    registration.unregister();
+                }
+            });
+        }
+        
+        // Clear all caches
+        if ('caches' in window) {
+            caches.keys().then(function(names) {
+                for (let name of names) {
+                    caches.delete(name);
+                }
+            });
+        }
+    </script>
+    <script src="script.js?v=20250805172000"></script>
+    
+
+    
+    <!-- Service Worker Registration for PWA -->
+    <script>
+        if ('serviceWorker' in navigator) {
+            window.addEventListener('load', () => {
+                navigator.serviceWorker.register('/sw.js')
+                    .then((registration) => {
+                        console.log('PassGenius SW registered: ', registration);
+                    })
+                    .catch((registrationError) => {
+                        console.log('PassGenius SW registration failed: ', registrationError);
+                    });
+            });
+        }
+    </script>
+</body>
+</html>
