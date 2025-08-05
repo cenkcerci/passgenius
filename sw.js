@@ -1,5 +1,5 @@
-// Service Worker for PassGenius PWA
-const CACHE_NAME = 'passgenius-v2-fixed';
+// Service Worker for SecurePass Pro PWA
+const CACHE_NAME = 'securepass-pro-v1';
 const urlsToCache = [
   '/',
   '/index.html',
