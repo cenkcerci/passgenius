@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Secure Password Generator – Free & Customizable</title>
+    <title>SecurePass Pro – Free & Customizable Password Generator</title>
     
     <!-- Favicon and PWA icons -->
     <link rel="icon" type="image/svg+xml" href="favicon.svg">
@@ -17,7 +17,7 @@
     <meta name="theme-color" content="#667eea">
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-status-bar-style" content="default">
-    <meta name="apple-mobile-web-app-title" content="PassGenius">
+    <meta name="apple-mobile-web-app-title" content="SecurePass Pro">
     <meta name="description" content="Generate secure, customizable passwords instantly. Features bulk generation, pronounceable passwords, leak checking, and password history. Free online tool with no registration required.">
     <meta name="robots" content="index, follow">
     <link rel="icon" href="favicon.ico">
@@ -27,8 +27,8 @@
     {
       "@context": "https://schema.org",
       "@type": "WebApplication",
-      "name": "PassGenius - Secure Password Generator",
-      "alternateName": "PassGenius",
+      "name": "SecurePass Pro - Password Generator",
+      "alternateName": "SecurePass Pro",
       "url": "https://password-generator.replit.app/",
       "description": "Generate secure, customizable passwords instantly with advanced features including bulk generation, pronounceable passwords, leak checking, and password history.",
       "applicationCategory": "UtilitiesApplication",
@@ -54,7 +54,7 @@
       "screenshot": "https://password-generator.replit.app/screenshot.png",
       "author": {
         "@type": "Organization",
-        "name": "PassGenius Team"
+        "name": "SecurePass Pro Team"
       }
     }
     </script>
@@ -62,14 +62,14 @@
     <!-- Open Graph / Facebook -->
     <meta property="og:type" content="website">
     <meta property="og:url" content="https://password-generator.replit.app/">
-    <meta property="og:title" content="Secure Password Generator – Free & Customizable">
+    <meta property="og:title" content="SecurePass Pro – Free & Customizable Password Generator">
     <meta property="og:description" content="Generate secure, customizable passwords instantly. Features bulk generation, pronounceable passwords, leak checking, and password history.">
     <meta property="og:image" content="https://password-generator.replit.app/og-image.png">
 
     <!-- Twitter -->
     <meta property="twitter:card" content="summary_large_image">
     <meta property="twitter:url" content="https://password-generator.replit.app/">
-    <meta property="twitter:title" content="Secure Password Generator – Free & Customizable">
+    <meta property="twitter:title" content="SecurePass Pro – Free & Customizable Password Generator">
     <meta property="twitter:description" content="Generate secure, customizable passwords instantly. Features bulk generation, pronounceable passwords, leak checking, and password history.">
     <meta property="twitter:image" content="https://password-generator.replit.app/og-image.png">
     
@@ -78,7 +78,7 @@
 <body>
     <div class="container">
         <header>
-            <h1>Secure Password Generator<br>Strong, Free, Instant</h1>
+            <h1>SecurePass Pro<br>Strong, Free, Instant</h1>
             <button id="dark-mode-toggle" class="dark-mode-toggle" title="Toggle dark mode">
                 <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                     <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
@@ -237,7 +237,7 @@
 
         <footer>
             <p>Generated passwords are created locally and never sent to any server.</p>
-            <p><a href="#privacy" onclick="alert('PassGenius does not collect or store any personal data.\nAll password generation runs entirely in your browser.\nWe do not use cookies or tracking tools.\nThe breach check uses anonymized hash prefixes via HaveIBeenPwned — your password is never shared.')">Privacy</a> · <a href="#contact" onclick="showContactModal()">Contact</a></p>
+            <p><a href="#privacy" onclick="alert('SecurePass Pro does not collect or store any personal data.\nAll password generation runs entirely in your browser.\nWe do not use cookies or tracking tools.\nThe breach check uses anonymized hash prefixes via HaveIBeenPwned — your password is never shared.')">Privacy</a> · <a href="#contact" onclick="showContactModal()">Contact</a></p>
         </footer>
     </div>
 
@@ -270,10 +270,10 @@
             window.addEventListener('load', () => {
                 navigator.serviceWorker.register('/sw.js')
                     .then((registration) => {
-                        console.log('PassGenius SW registered: ', registration);
+                        console.log('SecurePass Pro SW registered: ', registration);
                     })
                     .catch((registrationError) => {
-                        console.log('PassGenius SW registration failed: ', registrationError);
+                        console.log('SecurePass Pro SW registration failed: ', registrationError);
                     });
             });
         }
