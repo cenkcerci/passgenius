@@ -744,6 +744,15 @@ body.dark-mode input:checked + .slider-toggle {
     box-shadow: 0 0 0 3px rgba(167, 139, 250, 0.3);
 }
 
+/* Dark mode header text colors */
+body.dark-mode header {
+    color: var(--dark-text-primary);
+}
+
+body.dark-mode .subtext {
+    color: var(--dark-text-secondary);
+}
+
 
 
 /* Password history section */
