@@ -802,7 +802,7 @@ class PasswordGenerator {
         link.setAttribute('href', url);
         // Create timestamped filename  
         const timestamp = new Date().toISOString().split('T')[0];
-        const filename = `passgenius-passwords-${timestamp}.txt`;
+        const filename = `securepass-pro-passwords-${timestamp}.txt`;
         link.setAttribute('download', filename);
         link.style.visibility = 'hidden';
         
