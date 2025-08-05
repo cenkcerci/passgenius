@@ -1,6 +1,6 @@
 {
-  "name": "PassGenius - Password Generator",
-  "short_name": "PassGenius",
+  "name": "SecurePass Pro - Password Generator",
+  "short_name": "SecurePass Pro",
   "description": "Secure, customizable password generator with advanced features and privacy-first design",
   "start_url": "/",
   "display": "standalone",
@@ -30,14 +30,14 @@
       "sizes": "1280x720",
       "type": "image/png",
       "form_factor": "wide",
-      "label": "PassGenius main interface with password generation options"
+      "label": "SecurePass Pro main interface with password generation options"
     },
     {
       "src": "screenshot-narrow.png",
       "sizes": "390x844",
       "type": "image/png",
       "form_factor": "narrow",
-      "label": "PassGenius mobile interface"
+      "label": "SecurePass Pro mobile interface"
     }
   ],
   "shortcuts": [
