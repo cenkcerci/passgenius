@@ -121,7 +121,7 @@ body {
 header {
     text-align: center;
     margin-bottom: 30px;
-    color: white;
+    color: var(--text-primary);
     position: relative;
 }
 
@@ -156,6 +156,7 @@ header {
 
 .subtext {
     font-size: 1.8rem;
+    color: var(--text-secondary);
     opacity: 0.9;
     margin: 0;
 }
