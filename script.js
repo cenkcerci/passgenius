@@ -629,11 +629,12 @@ class PasswordGenerator {
         
         // Mobile positioning (only for mobile)
         const mobileStyles = isMobile ? {
-            'position': 'absolute',
-            'top': '10px',
-            'right': '10px',
-            'margin': '0',
-            'transform': 'none'
+            'position': 'absolute !important',
+            'top': '10px !important',
+            'right': '10px !important',
+            'left': 'auto !important',
+            'margin': '0 !important',
+            'transform': 'none !important'
         } : {};
         
         // Clear existing styles completely first
