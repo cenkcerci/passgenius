@@ -1,8 +1,8 @@
 /* Updated: August 6, 2025 - Fixed desktop header sizing and button positioning */
 /* CSS Custom Properties for theming */
 :root {
-    /* Colors */
-    --primary-gradient: linear-gradient(135deg, #f7fafc 0%, #edf2f7 100%);
+    /* Colors - Fixed attractive gradient */
+    --primary-gradient: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
     --button-gradient: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
     --card-bg: #ffffff;
     --text-primary: #1a202c;
@@ -77,11 +77,186 @@
 body {
     font-family: var(--font-family);
     line-height: 1.6;
-    color: #1a202c;
+    color: #1a202c !important;
     background: var(--primary-gradient);
+    background-attachment: fixed;
     min-height: 100vh;
     padding: var(--spacing-lg);
     transition: background var(--transition-base);
+}
+
+/* Fix default label colors to prevent dark-on-dark issues */
+body:not(.dark-mode):not(.light-mode) .option-label {
+    color: #2d3748 !important;
+}
+
+body:not(.dark-mode):not(.light-mode) .section-title {
+    color: #1a202c !important;
+}
+
+/* Ensure light mode text is always visible */
+body.light-mode .option-label {
+    color: #2d3748 !important;
+}
+
+body.light-mode .section-title {
+    color: #1a202c !important;
+}
+
+body:not(.dark-mode) .option-label {
+    color: #2d3748 !important;
+}
+
+body:not(.dark-mode) .section-title {
+    color: #1a202c !important;
+}
+
+/* Logo theme-aware styling */
+.header img, .header svg {
+    color: #4A5568;
+}
+
+body.dark-mode .header img, 
+body.dark-mode .header svg {
+    color: #ffffff;
+    filter: none;
+}
+
+/* SVG logo styling - theme-aware classes */
+.logo-text-primary {
+    fill: #4A5568 !important;
+}
+
+.logo-text-accent {
+    fill: #5B9BD5 !important;
+}
+
+/* Legacy selectors for compatibility */
+#logo-quick,
+.logo-quick,
+svg text.logo-quick {
+    fill: #4A5568 !important;
+}
+
+/* Dark mode logo text colors - maximum specificity */
+body.dark-mode .logo-text-primary,
+body.dark-mode .header-logo .logo-text-primary,
+body.dark-mode svg .logo-text-primary {
+    fill: #ffffff !important;
+}
+
+body.dark-mode .logo-text-accent,
+body.dark-mode .header-logo .logo-text-accent,
+body.dark-mode svg .logo-text-accent {
+    fill: #ffffff !important;
+}
+
+/* Nuclear option - target all SVG text in header during dark mode */
+body.dark-mode .header-logo svg text,
+body.dark-mode img[src*="logo"] + svg text,
+body.dark-mode svg text {
+    fill: #ffffff !important;
+}
+
+/* Legacy dark mode selectors with enhanced specificity */
+body.dark-mode #logo-quick,
+body.dark-mode .logo-quick,
+body.dark-mode svg text.logo-quick,
+body.dark-mode .header-logo #logo-quick,
+body.dark-mode .header-logo .logo-quick,
+body.dark-mode .header-logo svg text.logo-quick {
+    fill: #ffffff !important;
+}
+
+/* Remove conflicting logo filter that causes yellow tint */
+body.dark-mode .header-logo {
+    filter: none;
+}
+
+/* Additional dark mode text fixes */
+body.dark-mode .history-timestamp {
+    color: #ffffff !important;
+}
+
+body.dark-mode .length-value {
+    color: #ffffff !important;
+}
+
+body.dark-mode .bulk-password-item {
+    color: #ffffff !important;
+}
+
+/* Ensure light mode text is always dark and readable */
+body:not(.dark-mode) * {
+    color: inherit;
+}
+
+body:not(.dark-mode) .bulk-password-text,
+body:not(.dark-mode) .history-timestamp,
+body:not(.dark-mode) .length-value,
+body:not(.dark-mode) .history-meta,
+body:not(.dark-mode) .leak-status,
+body:not(.dark-mode) .footer,
+body:not(.dark-mode) p,
+body:not(.dark-mode) span,
+body:not(.dark-mode) div:not(.generate-btn):not(.copy-btn):not(.control-btn) {
+    color: #1a202c !important;
+}
+
+/* Comprehensive dark mode text fixes - ensure ALL text is white */
+body.dark-mode * {
+    color: inherit;
+}
+
+/* Comprehensive dark mode text fixes - ALL text must be white */
+body.dark-mode .bulk-password-text,
+body.dark-mode .history-timestamp,
+body.dark-mode .length-value,
+body.dark-mode .history-meta,
+body.dark-mode .leak-status,
+body.dark-mode .footer,
+body.dark-mode p,
+body.dark-mode span,
+body.dark-mode div:not(.generate-btn):not(.copy-btn):not(.control-btn),
+body.dark-mode .password-placeholder,
+body.dark-mode .placeholder-text,
+body.dark-mode #password-output,
+body.dark-mode textarea,
+body.dark-mode input,
+body.dark-mode label {
+    color: #ffffff !important;
+}
+
+/* Dark mode logo fixes - nuclear option for all logo elements */
+body.dark-mode .header-logo,
+body.dark-mode .header-logo *,
+body.dark-mode .header-logo svg,
+body.dark-mode .header-logo svg *,
+body.dark-mode img[src*="logo"],
+body.dark-mode img[src*="logo"] *,
+body.dark-mode svg[width="240"],
+body.dark-mode svg[width="240"] * {
+    fill: #ffffff !important;
+    stroke: #ffffff !important;
+    color: #ffffff !important;
+}
+
+/* Extreme specificity - override ANY SVG text colors in dark mode */
+body.dark-mode svg text[fill],
+body.dark-mode svg text[color],
+body.dark-mode .header-logo svg text[fill],
+body.dark-mode .header-logo svg text[color] {
+    fill: #ffffff !important;
+    color: #ffffff !important;
+}
+
+/* Override any gray colors in dark mode logo */
+body.dark-mode .header-logo svg path,
+body.dark-mode .header-logo svg circle,
+body.dark-mode .header-logo svg rect,
+body.dark-mode .header-logo svg text {
+    fill: #ffffff !important;
+    stroke: #ffffff !important;
 }
 
 /* Mobile spacing improvements */
@@ -266,7 +441,7 @@ body.dark-mode .grid-text {
 .section-title {
     font-size: 1.1rem;
     font-weight: 600;
-    color: #1a202c;
+    color: #1a202c !important;
     margin-bottom: 15px;
     display: block;
 }
@@ -432,7 +607,7 @@ input:checked + .slider-toggle:before {
 
 .option-label {
     font-size: 0.95rem;
-    color: #2d3748;
+    color: #2d3748 !important;
     cursor: pointer;
     user-select: none;
 }
@@ -458,7 +633,7 @@ input:checked + .slider-toggle:before {
     width: 100%;
     padding: var(--spacing-md);
     background: var(--button-gradient);
-    color: white;
+    color: white !important;
     border: none;
     border-radius: var(--border-radius-lg);
     font-size: var(--font-size-lg);
@@ -468,6 +643,17 @@ input:checked + .slider-toggle:before {
     margin-bottom: var(--spacing-xl);
     position: relative;
     overflow: hidden;
+}
+
+/* Ensure button text is always white regardless of theme */
+.generate-btn,
+.generate-btn:hover,
+.generate-btn:active,
+.generate-btn:focus,
+body.dark-mode .generate-btn,
+body.light-mode .generate-btn,
+body:not(.dark-mode) .generate-btn {
+    color: white !important;
 }
 
 .generate-btn::before {
@@ -527,7 +713,7 @@ input:checked + .slider-toggle:before {
     right: 10px;
     background: transparent;
     border: none;
-    color: #667eea;
+    color: #667eea !important;
     cursor: pointer;
     padding: 8px;
     border-radius: 6px;
@@ -535,6 +721,14 @@ input:checked + .slider-toggle:before {
     display: flex;
     align-items: center;
     justify-content: center;
+}
+
+/* Ensure copy button maintains its blue color */
+.copy-btn,
+.copy-btn:focus,
+body.dark-mode .copy-btn,
+body.light-mode .copy-btn {
+    color: #667eea !important;
 }
 
 .copy-btn:hover:not(:disabled) {
@@ -638,6 +832,7 @@ input:checked + .slider-toggle:before {
 }
 
 /* System dark mode preference fallback */
+/* Auto dark mode - but ensure labels remain readable */
 @media (prefers-color-scheme: dark) {
     body:not(.dark-mode):not(.light-mode) {
         background: linear-gradient(135deg, #1a202c 0%, #2d3748 100%);
@@ -647,6 +842,15 @@ input:checked + .slider-toggle:before {
     body:not(.dark-mode):not(.light-mode) .generator-card {
         background: var(--dark-card-bg);
         color: var(--dark-text-primary);
+    }
+    
+    /* Ensure labels are visible in auto dark mode */
+    body:not(.dark-mode):not(.light-mode) .option-label {
+        color: #cbd5e0 !important;
+    }
+    
+    body:not(.dark-mode):not(.light-mode) .section-title {
+        color: #e2e8f0 !important;
     }
     
     body:not(.dark-mode):not(.light-mode) footer {
@@ -769,19 +973,22 @@ input:checked + .slider-toggle {
     box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.3);
 }
 
-/* High contrast mode support */
+/* High contrast mode support - simplified to prevent label conflicts */
 @media (prefers-contrast: high) {
-    :root {
-        --text-primary: #000000;
-        --text-secondary: #000000;
-        --border-color: #000000;
-        --accent-color: #0000ff;
+    body:not(.dark-mode) .option-label {
+        color: #000000 !important;
     }
     
-    body.dark-mode {
-        --dark-text-primary: #ffffff;
-        --dark-text-secondary: #ffffff;
-        --dark-border-color: #ffffff;
+    body:not(.dark-mode) .section-title {
+        color: #000000 !important;
+    }
+    
+    body.dark-mode .option-label {
+        color: #ffffff !important;
+    }
+    
+    body.dark-mode .section-title {
+        color: #ffffff !important;
     }
     
     .generate-btn,
@@ -946,17 +1153,63 @@ body.dark-mode .subtext {
 /* Dark mode styles */
 body.dark-mode {
     background: linear-gradient(135deg, #1a202c 0%, #2d3748 100%) !important;
-    color: #e2e8f0;
+    background-attachment: fixed !important;
+    color: #ffffff !important;
+}
+
+/* Light mode explicit styles to prevent text color issues */
+body:not(.dark-mode),
+body.light-mode {
+    background: var(--primary-gradient) !important;
+    background-attachment: fixed !important;
+    color: #1a202c !important;
+}
+
+/* Generator card explicit styles */
+.generator-card {
+    background: var(--card-bg);
+    color: #1a202c;
+    border-radius: var(--border-radius-lg);
+    padding: var(--spacing-2xl);
+    box-shadow: var(--shadow-lg);
+    margin-bottom: var(--spacing-xl);
+}
+
+body:not(.dark-mode) .generator-card,
+body.light-mode .generator-card {
+    background: #ffffff !important;
+    color: #1a202c !important;
+}
+
+/* Force all text elements to have proper colors in light mode */
+body:not(.dark-mode) .section-title,
+body:not(.dark-mode) .option-label,
+body:not(.dark-mode) .length-value,
+body:not(.dark-mode) label,
+body:not(.dark-mode) p,
+body:not(.dark-mode) span:not(.header-text),
+body:not(.dark-mode) div:not(.generate-btn):not(.copy-btn):not(.header-button) {
+    color: #1a202c !important;
+}
+
+body.light-mode .section-title,
+body.light-mode .option-label,
+body.light-mode .length-value,
+body.light-mode label,
+body.light-mode p,
+body.light-mode span:not(.header-text),
+body.light-mode div:not(.generate-btn):not(.copy-btn):not(.header-button) {
+    color: #1a202c !important;
 }
 
 body.dark-mode .generator-card,
 body.dark-mode .history-section {
     background: #2d3748;
-    color: #e2e8f0;
+    color: #ffffff !important;
 }
 
 body.dark-mode .section-title {
-    color: #e2e8f0;
+    color: #ffffff !important;
 }
 
 body.dark-mode .slider {
@@ -964,13 +1217,25 @@ body.dark-mode .slider {
 }
 
 body.dark-mode .option-label {
-    color: #cbd5e0;
+    color: #ffffff !important;
 }
 
 body.dark-mode .password-output {
     background: #1a202c;
     border-color: #4a5568;
-    color: #e2e8f0;
+    color: #ffffff !important;
+}
+
+/* Dark mode placeholder text fix - make it white/light gray */
+body.dark-mode .password-output::placeholder {
+    color: #e2e8f0 !important;
+    opacity: 1 !important;
+}
+
+body.dark-mode input::placeholder,
+body.dark-mode textarea::placeholder {
+    color: #e2e8f0 !important;
+    opacity: 1 !important;
 }
 
 body.dark-mode .password-output:focus {
@@ -980,12 +1245,12 @@ body.dark-mode .password-output:focus {
 body.dark-mode .control-btn {
     background: #1a202c;
     border-color: #4a5568;
-    color: #cbd5e0;
+    color: #ffffff !important;
 }
 
 body.dark-mode .control-btn:hover {
     background: #4a5568;
-    color: #e2e8f0;
+    color: #ffffff !important;
 }
 
 body.dark-mode .history-item {
@@ -999,11 +1264,11 @@ body.dark-mode .history-item:hover {
 }
 
 body.dark-mode .history-password {
-    color: #e2e8f0;
+    color: #ffffff !important;
 }
 
 body.dark-mode .history-empty {
-    color: #718096;
+    color: #ffffff !important;
 }
 
 
@@ -1017,7 +1282,7 @@ body.dark-mode .error-message {
 body.dark-mode .bulk-select {
     background: #1a202c;
     border-color: #4a5568;
-    color: #e2e8f0;
+    color: #ffffff !important;
 }
 
 body.dark-mode .bulk-select:focus {
@@ -1137,7 +1402,7 @@ body.dark-mode .bulk-password-list {
 
 body.dark-mode .bulk-password-item {
     border-color: #4a5568;
-    color: #e2e8f0;
+    color: #ffffff !important;
 }
 
 body.dark-mode .bulk-password-item:hover {
@@ -1150,7 +1415,7 @@ body.dark-mode .bulk-password-copy {
 
 body.dark-mode .bulk-password-copy:hover {
     background: #4a5568;
-    color: #81a3f7;
+    color: #ffffff !important;
 }
 
 /* PWA-friendly styles for standalone display */
