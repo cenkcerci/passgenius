@@ -102,9 +102,26 @@ class PasswordGenerator {
         // Initialize display and features
         this.updateLengthDisplay();
         this.validateOptions();
+        
+        // Load dark mode preference FIRST, then apply theme class
         this.loadDarkModePreference();
+        
+        // Ensure theme class is applied immediately after loading preference
+        const savedMode = localStorage.getItem('darkMode');
+        if (savedMode === 'true') {
+            document.body.classList.add('dark-mode');
+            document.body.classList.remove('light-mode');
+            this.isDarkMode = true;
+        } else {
+            document.body.classList.add('light-mode');
+            document.body.classList.remove('dark-mode');
+            this.isDarkMode = false;
+        }
         this.renderPasswordHistory();
         this.toggleBulkMode();
+        
+        // Set initial logo based on theme
+        this.updateLogoColors();
     }
 
     updateLengthDisplay() {
@@ -588,6 +605,21 @@ class PasswordGenerator {
             localStorage.setItem('darkMode', 'true');
         }
         this.updateButtonStyling();
+        this.updateLogoColors();
+    }
+
+    // Switch between logo files for different themes
+    updateLogoColors() {
+        const isDarkMode = document.body.classList.contains('dark-mode');
+        const logoImg = document.querySelector('.header-logo');
+        
+        if (logoImg) {
+            if (isDarkMode) {
+                logoImg.src = 'logo-white.svg';
+            } else {
+                logoImg.src = 'logo.svg';
+            }
+        }
     }
     
     updateButtonStyling() {
