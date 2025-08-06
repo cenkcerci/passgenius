@@ -32,6 +32,8 @@ class PasswordGenerator {
         
         // Password history storage
         this.passwordHistory = this.loadPasswordHistory();
+        this.renderTimeout = null;
+        this.isRendering = false;
         this.currentBulkPasswords = [];
 
         // Character sets for password generation
@@ -697,10 +699,15 @@ class PasswordGenerator {
     }
 
     addToHistory(password) {
+        // Check for duplicate password (don't add if same password already exists at top)
+        if (this.passwordHistory.length > 0 && this.passwordHistory[0].password === password) {
+            return; // Skip adding duplicate
+        }
+        
         const historyItem = {
             password: password,
             timestamp: new Date().toLocaleString(),
-            id: Date.now()
+            id: Date.now() + Math.random() // Ensure unique ID
         };
         
         this.passwordHistory.unshift(historyItem);
@@ -711,40 +718,67 @@ class PasswordGenerator {
         }
         
         this.savePasswordHistory();
-        this.renderPasswordHistory();
+        
+        // Debounce rendering to prevent display corruption from rapid clicks
+        clearTimeout(this.renderTimeout);
+        this.renderTimeout = setTimeout(() => {
+            this.renderPasswordHistory();
+        }, 50);
     }
 
     renderPasswordHistory() {
-        if (this.passwordHistory.length === 0) {
-            this.historyList.innerHTML = '<div class="history-empty">No passwords generated yet</div>';
-            this.exportCsvBtn.disabled = true;
-            this.clearHistoryBtn.disabled = true;
-            return;
-        }
+        // Prevent concurrent rendering calls
+        if (this.isRendering) return;
+        this.isRendering = true;
+        
+        try {
+            if (this.passwordHistory.length === 0) {
+                this.historyList.innerHTML = '<div class="history-empty">No passwords generated yet</div>';
+                this.exportCsvBtn.disabled = true;
+                this.clearHistoryBtn.disabled = true;
+                return;
+            }
 
-        this.exportCsvBtn.disabled = false;
-        this.clearHistoryBtn.disabled = false;
+            this.exportCsvBtn.disabled = false;
+            this.clearHistoryBtn.disabled = false;
 
-        const historyHtml = this.passwordHistory.map(item => {
-            return `
-                <div class="history-item">
-                    <div class="history-password">${item.password}</div>
+            // Use document fragment for better performance and no display corruption
+            const fragment = document.createDocumentFragment();
+            
+            this.passwordHistory.forEach(item => {
+                const historyItem = document.createElement('div');
+                historyItem.className = 'history-item';
+                historyItem.innerHTML = `
+                    <div class="history-password">${this.escapeHtml(item.password)}</div>
                     <div class="history-meta">
                         <div class="history-timestamp">${item.timestamp}</div>
                     </div>
                     <div class="history-actions">
-                        <button class="history-copy-btn" onclick="passwordGenerator.copyHistoryPassword('${item.password}')" title="Copy password">
+                        <button class="history-copy-btn" onclick="passwordGenerator.copyHistoryPassword('${this.escapeHtml(item.password)}')" title="Copy password">
                             <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                                 <rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect>
                                 <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path>
                             </svg>
                         </button>
                     </div>
-                </div>
-            `;
-        }).join('');
+                `;
+                fragment.appendChild(historyItem);
+            });
 
-        this.historyList.innerHTML = historyHtml;
+            // Single DOM update to prevent flicker
+            this.historyList.innerHTML = '';
+            this.historyList.appendChild(fragment);
+            
+        } finally {
+            this.isRendering = false;
+        }
+    }
+    
+    // Helper method to escape HTML for security
+    escapeHtml(text) {
+        const div = document.createElement('div');
+        div.textContent = text;
+        return div.innerHTML;
     }
 
     async copyHistoryPassword(password) {
