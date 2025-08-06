@@ -1,5 +1,5 @@
-// Service Worker for SecurePass Pro
-const CACHE_NAME = 'securepass-pro-v20250806071300';
+// Service Worker for QuickPwd
+const CACHE_NAME = 'quickpwd-v20250806071300';
 const urlsToCache = [
   '/',
   '/index.html',
@@ -37,6 +37,14 @@ self.addEventListener('activate', event => {
 });
 
 self.addEventListener('fetch', event => {
+  // Skip service worker for external API calls to avoid CSP conflicts
+  const url = event.request.url;
+  if (url.includes('googletagmanager.com') || 
+      url.includes('google-analytics.com') || 
+      url.includes('api.pwnedpasswords.com')) {
+    return; // Let the main page handle these requests
+  }
+
   event.respondWith(
     caches.match(event.request)
       .then(response => {
