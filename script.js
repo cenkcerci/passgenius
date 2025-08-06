@@ -298,7 +298,13 @@ class PasswordGenerator {
                 const prefix = hashHex.substring(0, 5);
                 const suffix = hashHex.substring(5);
                 
-                const response = await fetch(`https://api.pwnedpasswords.com/range/${prefix}`);
+                const response = await fetch(`https://api.pwnedpasswords.com/range/${prefix}`, {
+                    method: 'GET',
+                    mode: 'cors',
+                    headers: {
+                        'User-Agent': 'QuickPwd-Password-Generator'
+                    }
+                });
                 
                 if (response.ok) {
                     const responseData = await response.text();
@@ -909,10 +915,16 @@ class PasswordGenerator {
             const prefix = hashHex.substring(0, 5);
             const suffix = hashHex.substring(5);
             
-            const response = await fetch(`https://api.pwnedpasswords.com/range/${prefix}`);
+            const response = await fetch(`https://api.pwnedpasswords.com/range/${prefix}`, {
+                method: 'GET',
+                mode: 'cors',
+                headers: {
+                    'User-Agent': 'QuickPwd-Password-Generator'
+                }
+            });
             
             if (!response.ok) {
-                throw new Error('Failed to check password');
+                throw new Error(`API returned ${response.status}: ${response.statusText}`);
             }
             
             const responseData = await response.text();
@@ -941,7 +953,17 @@ class PasswordGenerator {
         } catch (error) {
             console.error('Error checking password leak:', error);
             this.leakStatus.className = 'leak-status error';
-            this.leakStatus.textContent = '⚠️ Unable to check password against breaches. Please try again later.';
+            
+            // More specific error messages
+            if (error.name === 'TypeError' && error.message.includes('fetch')) {
+                this.leakStatus.textContent = '⚠️ Network error - check your internet connection and try again.';
+            } else if (error.message.includes('404')) {
+                this.leakStatus.textContent = '⚠️ Breach checking service temporarily unavailable.';
+            } else if (error.message.includes('429')) {
+                this.leakStatus.textContent = '⚠️ Too many requests - please wait a moment and try again.';
+            } else {
+                this.leakStatus.textContent = '⚠️ Unable to check password against breaches. Please try again later.';
+            }
         }
         
         // Update session stats
