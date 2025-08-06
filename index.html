@@ -27,6 +27,14 @@
           script.src = 'https://www.googletagmanager.com/gtag/js?id=G-4MJZ872FM8';
           script.onload = function() {
             gtag('config', 'G-4MJZ872FM8');
+            console.log('Google Analytics loaded successfully');
+          };
+          script.onerror = function() {
+            console.log('Google Analytics failed to load - continuing without tracking');
+            // Create fallback gtag function
+            window.gtag = function() {
+              console.log('GA (fallback):', arguments);
+            };
           };
           document.head.appendChild(script);
         } else {
