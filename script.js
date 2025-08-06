@@ -676,8 +676,13 @@ class PasswordGenerator {
         }
         // If no preference saved, let system preference handle it
         
-        // Apply button styling immediately after theme loads
-        setTimeout(() => this.updateButtonStyling(), 100);
+        // Apply button styling once after theme loads
+        setTimeout(() => {
+            if (!this.buttonStyled) {
+                this.updateButtonStyling();
+                this.buttonStyled = true;
+            }
+        }, 100);
     }
 
     // Password history functionality
