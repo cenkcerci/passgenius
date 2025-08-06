@@ -11,9 +11,14 @@
         gtag('js', new Date());
         
         // Check if we're in production (not localhost or replit)
-        var isProduction = !window.location.hostname.includes('localhost') && 
-                          !window.location.hostname.includes('replit') &&
-                          !window.location.hostname.includes('127.0.0.1');
+        var hostname = window.location.hostname;
+        var isProduction = hostname !== 'localhost' && 
+                          hostname !== '127.0.0.1' &&
+                          !hostname.includes('replit') &&
+                          !hostname.includes('0.0.0.0');
+        
+        console.log('Current hostname:', hostname);
+        console.log('Is production:', isProduction);
         
         if (isProduction) {
           // Production: Load normally via script tag
@@ -36,6 +41,7 @@
     
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="Content-Security-Policy" content="script-src 'self' 'unsafe-inline' https://www.googletagmanager.com https://www.google-analytics.com; connect-src 'self' https://www.google-analytics.com https://analytics.google.com; object-src 'none';">
     <title>QuickPwd – Free & Customizable Password Generator</title>
     
     <!-- Favicon and PWA icons -->
