@@ -1017,13 +1017,47 @@ function restoreDesktopLayout() {
     const headerButton = document.querySelector('.header-button');
     
     if (headerRow && headerLogo && headerText && headerButton) {
-        // Clear all inline styles to let CSS take over
-        headerRow.style.cssText = '';
-        headerLogo.style.cssText = '';
-        headerText.style.cssText = '';
-        // Don't clear button styles - let updateButtonStyling handle it
+        // Apply desktop layout styles directly
+        headerRow.style.cssText = `
+            display: flex !important;
+            align-items: center !important;
+            justify-content: space-between !important;
+            padding: 15px 20px !important;
+            margin-bottom: 25px !important;
+            background: rgba(255, 255, 255, 0.95) !important;
+            border: 1px solid rgba(0, 0, 0, 0.1) !important;
+            border-radius: 12px !important;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1) !important;
+            position: relative !important;
+            height: 68px !important;
+            min-height: 68px !important;
+        `;
         
-        console.log('Desktop layout restored');
+        headerLogo.style.cssText = `
+            display: block !important;
+            height: 40px !important;
+            width: auto !important;
+            flex-shrink: 0 !important;
+            margin: 0 !important;
+        `;
+        
+        headerText.style.cssText = `
+            position: absolute !important;
+            left: 50% !important;
+            top: 50% !important;
+            transform: translate(-50%, -50%) !important;
+            font-size: 1.3rem !important;
+            font-weight: 600 !important;
+            color: var(--text-primary) !important;
+            margin: 0 !important;
+            white-space: nowrap !important;
+            text-align: center !important;
+            line-height: 1 !important;
+            display: block !important;
+        `;
+        
+        // Don't clear button styles - let updateButtonStyling handle it
+        console.log('Desktop layout restored with proper sizing');
     }
 }
 
@@ -1074,8 +1108,8 @@ function forceMobileLayout() {
         
         headerText.style.cssText = `
             display: block !important;
-            font-size: 1.0rem !important;
-            line-height: 1.2 !important;
+            font-size: 0.95rem !important;
+            line-height: 1.1 !important;
             margin: 0 !important;
             text-align: center !important;
             position: static !important;
@@ -1091,6 +1125,9 @@ function forceMobileLayout() {
             flex-shrink: 0 !important;
             order: 2 !important;
             white-space: nowrap !important;
+            overflow: hidden !important;
+            text-overflow: ellipsis !important;
+            max-width: calc(100vw - 120px) !important;
         `;
         
         // Mobile layout complete - trigger button restyling
@@ -1113,10 +1150,14 @@ document.addEventListener('DOMContentLoaded', () => {
     passwordGenerator = new PasswordGenerator();
     
     // Apply appropriate layout based on screen size
+    console.log('Screen width:', window.innerWidth);
     if (window.innerWidth <= 390) {
         setTimeout(() => forceMobileLayout(), 100);
     } else {
-        setTimeout(() => restoreDesktopLayout(), 100);
+        setTimeout(() => {
+            console.log('Applying desktop layout...');
+            restoreDesktopLayout();
+        }, 100);
     }
     
     // Debounced resize handler to prevent flickering
