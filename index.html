@@ -77,9 +77,9 @@
 </head>
 <body>
     <div style="max-width: 1000px; margin: 0 auto; padding: 20px;">
-        <header class="header-row">
-            <img src="logo.svg" alt="quickpwd logo" class="header-logo">
-            <span class="header-text">Free • Secure • Instant</span>
+        <header class="header-row" style="display: flex; align-items: center; justify-content: space-between; height: 68px; position: relative;">
+            <img src="logo.svg" alt="quickpwd logo" class="header-logo" style="height: 40px;">
+            <span class="header-text" style="position: absolute; left: 50%; top: 50%; transform: translate(-50%, -50%); font-size: 1.3rem; font-weight: 600;">Free • Secure • Instant</span>
             <button id="dark-mode-toggle" class="header-button" title="Toggle dark mode">
                 <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                     <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 21 12.79z"></path>
@@ -135,9 +135,12 @@
                 .header-text {
                     order: 2 !important;
                     margin: 0 !important;
-                    font-size: 1.0rem !important;
+                    font-size: 0.95rem !important;
                     flex-shrink: 0 !important;
                     white-space: nowrap !important;
+                    overflow: hidden !important;
+                    text-overflow: ellipsis !important;
+                    max-width: calc(100vw - 120px) !important;
                 }
                 body.dark-mode .header-text {
                     color: white !important;
@@ -313,7 +316,7 @@
     </div>
 
     <!-- Service worker cache clearing removed - handled by SW itself -->
-    <script src="script.js?v=20250806072200"></script>
+    <script src="script.js?v=20250806072900"></script>
     
 
     
