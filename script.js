@@ -579,6 +579,84 @@ class PasswordGenerator {
             document.body.classList.add('dark-mode');
             localStorage.setItem('darkMode', 'true');
         }
+        this.updateButtonStyling();
+    }
+    
+    updateButtonStyling() {
+        const button = document.getElementById('dark-mode-toggle');
+        if (!button) {
+            console.log('Button not found!');
+            return;
+        }
+        
+        console.log('Applying comprehensive button styling...', document.body.classList.contains('dark-mode') ? 'DARK' : 'LIGHT');
+        
+        // Complete button styling with proper theme and mobile support
+        const isDarkMode = document.body.classList.contains('dark-mode');
+        const isMobile = window.innerWidth <= 479;
+        
+        // Base styling that works for both desktop and mobile
+        const baseStyles = {
+            'border-radius': '8px',
+            'cursor': 'pointer', 
+            'transition': 'all 0.3s ease',
+            'display': 'flex',
+            'align-items': 'center',
+            'justify-content': 'center',
+            'min-width': isMobile ? '36px' : '48px',
+            'min-height': isMobile ? '36px' : '48px',
+            'padding': isMobile ? '8px' : '12px'
+        };
+        
+        // Theme-specific styling
+        const themeStyles = isDarkMode ? {
+            'background': 'rgba(255, 255, 255, 0.08)',
+            'border': '2px solid rgba(255, 255, 255, 0.5)',
+            'color': 'white',
+            'box-shadow': '0 2px 8px rgba(0, 0, 0, 0.4)'
+        } : {
+            'background': 'rgba(255, 255, 255, 0.95)',
+            'border': '1px solid rgba(0, 0, 0, 0.15)', 
+            'color': '#2d3748',
+            'box-shadow': '0 2px 4px rgba(0, 0, 0, 0.1)'
+        };
+        
+        // Mobile positioning (only for mobile)
+        const mobileStyles = isMobile ? {
+            'position': 'absolute',
+            'top': '10px',
+            'right': '10px',
+            'margin': '0',
+            'transform': 'none'
+        } : {};
+        
+        // Clear existing styles completely first
+        button.style.cssText = '';
+        button.className = 'header-button-forced';
+        
+        // Apply all styles with maximum priority
+        const allStyles = {...baseStyles, ...themeStyles, ...mobileStyles};
+        Object.entries(allStyles).forEach(([prop, value]) => {
+            button.style.setProperty(prop, value, 'important');
+        });
+        
+        // Force SVG styling with maximum specificity
+        const svg = button.querySelector('svg');
+        if (svg) {
+            svg.style.cssText = '';
+            svg.style.setProperty('stroke', 'currentColor', 'important');
+            svg.style.setProperty('color', 'inherit', 'important');
+            svg.style.setProperty('fill', 'none', 'important');
+            svg.style.setProperty('width', '20px', 'important');
+            svg.style.setProperty('height', '20px', 'important');
+        }
+        
+        // Force immediate visual refresh
+        button.style.display = 'none';
+        button.offsetHeight; // Trigger reflow
+        button.style.display = 'flex';
+        
+        console.log('Comprehensive button styling applied');
     }
 
     loadDarkModePreference() {
@@ -591,6 +669,9 @@ class PasswordGenerator {
             document.body.classList.remove('dark-mode');
         }
         // If no preference saved, let system preference handle it
+        
+        // Apply button styling immediately after theme loads
+        setTimeout(() => this.updateButtonStyling(), 100);
     }
 
     // Password history functionality
@@ -928,10 +1009,108 @@ class PasswordGenerator {
     }
 }
 
+// Force mobile layout function
+function forceMobileLayout() {
+    const headerRow = document.querySelector('.header-row');
+    const headerLogo = document.querySelector('.header-logo');
+    const headerText = document.querySelector('.header-text');
+    const headerButton = document.querySelector('.header-button');
+    
+    if (headerRow && headerLogo && headerText && headerButton) {
+        console.log('Forcing mobile layout...');
+        
+        // Apply mobile styles directly via JavaScript
+        // Apply mobile header styling with proper dark mode support
+        const isDarkMode = document.body.classList.contains('dark-mode');
+        const headerBackground = isDarkMode ? 'rgba(255, 255, 255, 0.1)' : 'rgba(255, 255, 255, 0.03)';
+        
+        headerRow.style.cssText = `
+            display: block !important;
+            text-align: center !important;
+            margin-bottom: 20px !important;
+            position: relative !important;
+            height: auto !important;
+            padding: 10px 50px 10px 10px !important;
+            background: ${headerBackground} !important;
+            border: 1px solid ${isDarkMode ? 'rgba(255, 255, 255, 0.15)' : 'rgba(0, 0, 0, 0.05)'} !important;
+            border-radius: 8px !important;
+        `;
+        
+        headerLogo.style.cssText = `
+            display: block !important;
+            height: 40px !important;
+            width: auto !important;
+            margin: 0 auto 8px auto !important;
+            position: static !important;
+            transform: none !important;
+            left: auto !important;
+            top: auto !important;
+        `;
+        
+        headerText.style.cssText = `
+            display: block !important;
+            font-size: 1.2rem !important;
+            line-height: 1.2 !important;
+            margin: 0 !important;
+            text-align: center !important;
+            position: static !important;
+            transform: none !important;
+            left: auto !important;
+            top: auto !important;
+            opacity: 1 !important;
+            font-weight: 600 !important;
+            color: ${isDarkMode ? 'white' : 'var(--text-secondary)'} !important;
+            text-shadow: ${isDarkMode ? '0 1px 2px rgba(0, 0, 0, 0.5)' : 'none'} !important;
+            visibility: visible !important;
+            z-index: 10 !important;
+        `;
+        
+        // Mobile layout complete - trigger button restyling
+        setTimeout(() => {
+            const generator = window.passwordGenerator;
+            if (generator && generator.updateButtonStyling) {
+                generator.updateButtonStyling();
+            }
+        }, 50);
+        
+        console.log('Mobile layout forced successfully');
+        
+        // Mobile layout applied successfully
+    }
+}
+
 // Initialize the password generator when the DOM is loaded
 let passwordGenerator;
 document.addEventListener('DOMContentLoaded', () => {
     passwordGenerator = new PasswordGenerator();
+    
+    // Force mobile layout on small screens
+    if (window.innerWidth <= 479) {
+        setTimeout(() => forceMobileLayout(), 100);
+    }
+    
+    // Also check on window resize
+    window.addEventListener('resize', () => {
+        if (window.innerWidth <= 479) {
+            forceMobileLayout();
+        }
+    });
+    
+    // Update mobile layout and button styling when theme changes
+    const observer = new MutationObserver(() => {
+        if (window.innerWidth <= 479) {
+            setTimeout(() => {
+                forceMobileLayout();
+            }, 50);
+        }
+        // Always update button styling on theme change
+        setTimeout(() => {
+            if (passwordGenerator && passwordGenerator.updateButtonStyling) {
+                passwordGenerator.updateButtonStyling();
+            }
+        }, 100);
+    });
+    observer.observe(document.body, { attributes: true, attributeFilter: ['class'] });
 });
 
 // Add keyboard shortcuts
