@@ -593,7 +593,7 @@ class PasswordGenerator {
         
         // Complete button styling with proper theme and mobile support
         const isDarkMode = document.body.classList.contains('dark-mode');
-        const isMobile = window.innerWidth <= 479;
+        const isMobile = window.innerWidth <= 390;
         
         // Base styling that works for both desktop and mobile
         const baseStyles = {
@@ -1009,6 +1009,24 @@ class PasswordGenerator {
     }
 }
 
+// Restore desktop layout for larger screens  
+function restoreDesktopLayout() {
+    const headerRow = document.querySelector('.header-row');
+    const headerLogo = document.querySelector('.header-logo');
+    const headerText = document.querySelector('.header-text');
+    const headerButton = document.querySelector('.header-button');
+    
+    if (headerRow && headerLogo && headerText && headerButton) {
+        // Clear all inline styles to let CSS take over
+        headerRow.style.cssText = '';
+        headerLogo.style.cssText = '';
+        headerText.style.cssText = '';
+        // Don't clear button styles - let updateButtonStyling handle it
+        
+        console.log('Desktop layout restored');
+    }
+}
+
 // Force mobile layout function
 function forceMobileLayout() {
     const headerRow = document.querySelector('.header-row');
@@ -1025,31 +1043,38 @@ function forceMobileLayout() {
         const headerBackground = isDarkMode ? 'rgba(255, 255, 255, 0.1)' : 'rgba(255, 255, 255, 0.03)';
         
         headerRow.style.cssText = `
-            display: block !important;
+            display: flex !important;
+            flex-direction: column !important;
+            align-items: center !important;
             text-align: center !important;
             margin-bottom: 20px !important;
             position: relative !important;
             height: auto !important;
-            padding: 10px 50px 10px 10px !important;
+            min-height: 90px !important;
+            padding: 20px 50px 20px 20px !important;
             background: ${headerBackground} !important;
             border: 1px solid ${isDarkMode ? 'rgba(255, 255, 255, 0.15)' : 'rgba(0, 0, 0, 0.05)'} !important;
             border-radius: 8px !important;
+            overflow: hidden !important;
+            gap: 10px !important;
         `;
         
         headerLogo.style.cssText = `
             display: block !important;
-            height: 40px !important;
+            height: 36px !important;
             width: auto !important;
-            margin: 0 auto 8px auto !important;
+            margin: 0 !important;
             position: static !important;
             transform: none !important;
             left: auto !important;
             top: auto !important;
+            flex-shrink: 0 !important;
+            order: 1 !important;
         `;
         
         headerText.style.cssText = `
             display: block !important;
-            font-size: 1.2rem !important;
+            font-size: 1.0rem !important;
             line-height: 1.2 !important;
             margin: 0 !important;
             text-align: center !important;
@@ -1063,6 +1088,9 @@ function forceMobileLayout() {
             text-shadow: ${isDarkMode ? '0 1px 2px rgba(0, 0, 0, 0.5)' : 'none'} !important;
             visibility: visible !important;
             z-index: 10 !important;
+            flex-shrink: 0 !important;
+            order: 2 !important;
+            white-space: nowrap !important;
         `;
         
         // Mobile layout complete - trigger button restyling
@@ -1084,31 +1112,55 @@ let passwordGenerator;
 document.addEventListener('DOMContentLoaded', () => {
     passwordGenerator = new PasswordGenerator();
     
-    // Force mobile layout on small screens
-    if (window.innerWidth <= 479) {
+    // Apply appropriate layout based on screen size
+    if (window.innerWidth <= 390) {
         setTimeout(() => forceMobileLayout(), 100);
+    } else {
+        setTimeout(() => restoreDesktopLayout(), 100);
     }
     
-    // Also check on window resize
+    // Debounced resize handler to prevent flickering
+    let resizeTimeout;
     window.addEventListener('resize', () => {
-        if (window.innerWidth <= 479) {
-            forceMobileLayout();
-        }
+        clearTimeout(resizeTimeout);
+        resizeTimeout = setTimeout(() => {
+            if (window.innerWidth <= 390) {
+                forceMobileLayout();
+            } else {
+                restoreDesktopLayout();
+            }
+            // Ensure button styling is correct after resize
+            if (passwordGenerator && passwordGenerator.updateButtonStyling) {
+                passwordGenerator.updateButtonStyling();
+            }
+        }, 50);
     });
     
     // Update mobile layout and button styling when theme changes
     const observer = new MutationObserver(() => {
-        if (window.innerWidth <= 479) {
+        // Immediate button styling update to prevent color flicker
+        if (passwordGenerator && passwordGenerator.updateButtonStyling) {
+            passwordGenerator.updateButtonStyling();
+        }
+        
+        // Then apply layout changes
+        if (window.innerWidth <= 390) {
             setTimeout(() => {
                 forceMobileLayout();
-            }, 50);
+                // Re-apply button styling after layout change
+                if (passwordGenerator && passwordGenerator.updateButtonStyling) {
+                    passwordGenerator.updateButtonStyling();
+                }
+            }, 10);
+        } else {
+            setTimeout(() => {
+                restoreDesktopLayout();
+                // Re-apply button styling after layout change
+                if (passwordGenerator && passwordGenerator.updateButtonStyling) {
+                    passwordGenerator.updateButtonStyling();
+                }
+            }, 10);
         }
-        // Always update button styling on theme change
-        setTimeout(() => {
-            if (passwordGenerator && passwordGenerator.updateButtonStyling) {
-                passwordGenerator.updateButtonStyling();
-            }
-        }, 100);
     });
     observer.observe(document.body, { attributes: true, attributeFilter: ['class'] });
 });
