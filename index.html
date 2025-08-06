@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>SecurePass Pro – Free & Customizable Password Generator</title>
+    <title>QuickPwd – Free & Customizable Password Generator</title>
     
     <!-- Favicon and PWA icons -->
     <link rel="icon" type="image/svg+xml" href="favicon.svg">
@@ -17,7 +17,7 @@
     <meta name="theme-color" content="#667eea">
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-status-bar-style" content="default">
-    <meta name="apple-mobile-web-app-title" content="SecurePass Pro">
+    <meta name="apple-mobile-web-app-title" content="QuickPwd">
     <meta name="description" content="Generate secure, customizable passwords instantly. Features bulk generation, pronounceable passwords, leak checking, and password history. Free online tool with no registration required.">
     <meta name="robots" content="index, follow">
     <link rel="icon" href="favicon.ico">
@@ -27,8 +27,8 @@
     {
       "@context": "https://schema.org",
       "@type": "WebApplication",
-      "name": "SecurePass Pro - Password Generator",
-      "alternateName": "SecurePass Pro",
+      "name": "QuickPwd - Password Generator",
+      "alternateName": "QuickPwd",
       "url": "https://password-generator.replit.app/",
       "description": "Generate secure, customizable passwords instantly with advanced features including bulk generation, pronounceable passwords, leak checking, and password history.",
       "applicationCategory": "UtilitiesApplication",
@@ -54,7 +54,7 @@
       "screenshot": "https://password-generator.replit.app/screenshot.png",
       "author": {
         "@type": "Organization",
-        "name": "SecurePass Pro Team"
+        "name": "QuickPwd Team"
       }
     }
     </script>
@@ -62,14 +62,14 @@
     <!-- Open Graph / Facebook -->
     <meta property="og:type" content="website">
     <meta property="og:url" content="https://password-generator.replit.app/">
-    <meta property="og:title" content="SecurePass Pro – Free & Customizable Password Generator">
+    <meta property="og:title" content="QuickPwd – Free & Customizable Password Generator">
     <meta property="og:description" content="Generate secure, customizable passwords instantly. Features bulk generation, pronounceable passwords, leak checking, and password history.">
     <meta property="og:image" content="https://password-generator.replit.app/og-image.png">
 
     <!-- Twitter -->
     <meta property="twitter:card" content="summary_large_image">
     <meta property="twitter:url" content="https://password-generator.replit.app/">
-    <meta property="twitter:title" content="SecurePass Pro – Free & Customizable Password Generator">
+    <meta property="twitter:title" content="QuickPwd – Free & Customizable Password Generator">
     <meta property="twitter:description" content="Generate secure, customizable passwords instantly. Features bulk generation, pronounceable passwords, leak checking, and password history.">
     <meta property="twitter:image" content="https://password-generator.replit.app/og-image.png">
     
@@ -93,19 +93,52 @@
                 border: 1px solid rgba(0, 0, 0, 0.15) !important;
                 color: #2d3748 !important;
                 box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1) !important;
+                transition: none !important;
             }
             html body.dark-mode div.header-row button.header-button-forced {
                 background: rgba(255, 255, 255, 0.08) !important;
                 border: 2px solid rgba(255, 255, 255, 0.5) !important;
                 color: white !important;
                 box-shadow: 0 2px 8px rgba(0, 0, 0, 0.4) !important;
+                transition: none !important;
             }
             html body.dark-mode div.header-row button.header-button-forced svg {
                 stroke: white !important;
                 color: white !important;
             }
-            /* Ensure mobile dark mode headline visibility */
-            @media (max-width: 479px) {
+            /* Prevent text color flicker during transitions */
+            html body.dark-mode .header-text {
+                color: white !important;
+                transition: none !important;
+            }
+            html body.light-mode .header-text,
+            html body:not(.dark-mode) .header-text {
+                color: var(--text-secondary) !important;
+                transition: none !important;
+            }
+            /* Mobile layout with flexbox to prevent overlap */
+            @media (max-width: 390px) {
+                .header-row {
+                    display: flex !important;
+                    flex-direction: column !important;
+                    align-items: center !important;
+                    gap: 10px !important;
+                    padding: 20px 50px 20px 20px !important;
+                    min-height: 90px !important;
+                }
+                .header-logo {
+                    order: 1 !important;
+                    margin: 0 !important;
+                    height: 36px !important;
+                    flex-shrink: 0 !important;
+                }
+                .header-text {
+                    order: 2 !important;
+                    margin: 0 !important;
+                    font-size: 1.0rem !important;
+                    flex-shrink: 0 !important;
+                    white-space: nowrap !important;
+                }
                 body.dark-mode .header-text {
                     color: white !important;
                     opacity: 1 !important;
@@ -113,6 +146,12 @@
                     font-weight: 600 !important;
                     visibility: visible !important;
                     z-index: 10 !important;
+                }
+                .header-button {
+                    order: 3 !important;
+                    position: absolute !important;
+                    top: 15px !important;
+                    right: 15px !important;
                 }
             }
             </style>
@@ -269,30 +308,12 @@
 
         <footer>
             <p>Generated passwords are created locally and never sent to any server.</p>
-            <p><a href="#privacy" onclick="alert('SecurePass Pro does not collect or store any personal data.\nAll password generation runs entirely in your browser.\nWe do not use cookies or tracking tools.\nThe breach check uses anonymized hash prefixes via HaveIBeenPwned — your password is never shared.')">Privacy</a> · <a href="#contact" onclick="showContactModal()">Contact</a></p>
+            <p><a href="#privacy" onclick="alert('QuickPwd does not collect or store any personal data.\nAll password generation runs entirely in your browser.\nWe do not use cookies or tracking tools.\nThe breach check uses anonymized hash prefixes via HaveIBeenPwned — your password is never shared.')">Privacy</a> · <a href="#contact" onclick="showContactModal()">Contact</a></p>
         </footer>
     </div>
 
-    <script>
-        // Completely disable service worker to prevent caching issues
-        if ('serviceWorker' in navigator) {
-            navigator.serviceWorker.getRegistrations().then(function(registrations) {
-                for(let registration of registrations) {
-                    registration.unregister();
-                }
-            });
-        }
-        
-        // Clear all caches
-        if ('caches' in window) {
-            caches.keys().then(function(names) {
-                for (let name of names) {
-                    caches.delete(name);
-                }
-            });
-        }
-    </script>
-    <script src="script.js?v=20250806071500"></script>
+    <!-- Service worker cache clearing removed - handled by SW itself -->
+    <script src="script.js?v=20250806072200"></script>
     
 
     
@@ -302,10 +323,10 @@
             window.addEventListener('load', () => {
                 navigator.serviceWorker.register('/sw.js')
                     .then((registration) => {
-                        console.log('SecurePass Pro SW registered: ', registration);
+                        console.log('QuickPwd SW registered: ', registration);
                     })
                     .catch((registrationError) => {
-                        console.log('SecurePass Pro SW registration failed: ', registrationError);
+                        console.log('QuickPwd SW registration failed: ', registrationError);
                     });
             });
         }
