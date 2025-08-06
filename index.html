@@ -73,22 +73,49 @@
     <meta property="twitter:description" content="Generate secure, customizable passwords instantly. Features bulk generation, pronounceable passwords, leak checking, and password history.">
     <meta property="twitter:image" content="https://password-generator.replit.app/og-image.png">
     
-    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="style.css?v=20250806071400">
 </head>
 <body>
-    <div class="container">
-        <header>
-            <div class="header-content">
-                <img src="logo.svg" alt="quickpwd logo" class="logo">
-                <div class="header-text">
-                    <p class="subtext">Free. Secure. Instant.</p>
-                </div>
-            </div>
-            <button id="dark-mode-toggle" class="dark-mode-toggle" title="Toggle dark mode">
+    <div style="max-width: 1000px; margin: 0 auto; padding: 20px;">
+        <header class="header-row">
+            <img src="logo.svg" alt="quickpwd logo" class="header-logo">
+            <span class="header-text">Free • Secure • Instant</span>
+            <button id="dark-mode-toggle" class="header-button" title="Toggle dark mode">
                 <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                    <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
+                    <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 21 12.79z"></path>
                 </svg>
             </button>
+            
+            <style id="force-button-styling">
+            /* Nuclear option - maximum specificity */
+            html body div.header-row button.header-button-forced {
+                background: rgba(255, 255, 255, 0.95) !important;
+                border: 1px solid rgba(0, 0, 0, 0.15) !important;
+                color: #2d3748 !important;
+                box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1) !important;
+            }
+            html body.dark-mode div.header-row button.header-button-forced {
+                background: rgba(255, 255, 255, 0.08) !important;
+                border: 2px solid rgba(255, 255, 255, 0.5) !important;
+                color: white !important;
+                box-shadow: 0 2px 8px rgba(0, 0, 0, 0.4) !important;
+            }
+            html body.dark-mode div.header-row button.header-button-forced svg {
+                stroke: white !important;
+                color: white !important;
+            }
+            /* Ensure mobile dark mode headline visibility */
+            @media (max-width: 479px) {
+                body.dark-mode .header-text {
+                    color: white !important;
+                    opacity: 1 !important;
+                    text-shadow: 0 1px 2px rgba(0, 0, 0, 0.5) !important;
+                    font-weight: 600 !important;
+                    visibility: visible !important;
+                    z-index: 10 !important;
+                }
+            }
+            </style>
         </header>
 
         <main class="generator-card" role="main" aria-label="Password generator controls">
@@ -265,7 +292,7 @@
             });
         }
     </script>
-    <script src="script.js?v=20250805172000"></script>
+    <script src="script.js?v=20250806071500"></script>
     
 
     
