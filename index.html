@@ -1,21 +1,36 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <!-- Google tag (gtag.js) - Dynamic loading to bypass CSP -->
+    <!-- Google tag (gtag.js) - Environment conditional loading -->
     <script>
-      // Load Google Analytics dynamically to bypass CSP in development
+      // Initialize Google Analytics with environment detection
       (function() {
         window.dataLayer = window.dataLayer || [];
         function gtag(){dataLayer.push(arguments);}
+        window.gtag = gtag;
         gtag('js', new Date());
         
-        // Create script element
-        var script = document.createElement('script');
-        script.async = true;
-        script.src = 'https://www.googletagmanager.com/gtag/js?id=G-4MJZ872FM8';
-        document.head.appendChild(script);
+        // Check if we're in production (not localhost or replit)
+        var isProduction = !window.location.hostname.includes('localhost') && 
+                          !window.location.hostname.includes('replit') &&
+                          !window.location.hostname.includes('127.0.0.1');
         
-        gtag('config', 'G-4MJZ872FM8');
+        if (isProduction) {
+          // Production: Load normally via script tag
+          var script = document.createElement('script');
+          script.async = true;
+          script.src = 'https://www.googletagmanager.com/gtag/js?id=G-4MJZ872FM8';
+          script.onload = function() {
+            gtag('config', 'G-4MJZ872FM8');
+          };
+          document.head.appendChild(script);
+        } else {
+          // Development: Mock gtag for testing without external requests
+          console.log('Development mode: Google Analytics disabled');
+          window.gtag = function() {
+            console.log('GA (dev mode):', arguments);
+          };
+        }
       })();
     </script>
     
